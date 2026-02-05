@@ -43,13 +43,13 @@ const TypewriterText = ({
     return () => clearTimeout(startTimeout);
   }, [text, delay, speed, onComplete]);
 
-  // Blinking cursor
+  // Hide cursor after typing is complete
   useEffect(() => {
     if (isComplete) {
-      const blinkInterval = setInterval(() => {
-        setShowCursor((prev) => !prev);
-      }, 530);
-      return () => clearInterval(blinkInterval);
+      const hideTimeout = setTimeout(() => {
+        setShowCursor(false);
+      }, 500);
+      return () => clearTimeout(hideTimeout);
     }
   }, [isComplete]);
 
