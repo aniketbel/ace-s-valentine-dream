@@ -9,6 +9,8 @@ import ProposalModal from "@/components/ProposalModal";
 const Index = () => {
   const [isAccepted, setIsAccepted] = useState(false);
   const [showQuestion, setShowQuestion] = useState(true);
+  const [yesScale, setYesScale] = useState(1);
+  const [noScale, setNoScale] = useState(1);
 
   const handleYesClick = useCallback(() => {
     setShowQuestion(false);
@@ -18,6 +20,14 @@ const Index = () => {
   const handleReplay = useCallback(() => {
     setIsAccepted(false);
     setShowQuestion(true);
+    setYesScale(1);
+    setNoScale(1);
+  }, []);
+
+  const handleNoCaught = useCallback(() => {
+    // Reduce No button by 5%, increase Yes button by 5%
+    setNoScale((prev) => Math.max(0.3, prev - 0.05));
+    setYesScale((prev) => Math.min(2, prev + 0.05));
   }, []);
 
   return (
@@ -52,8 +62,8 @@ const Index = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.6 }}
             >
-              <YesButton onClick={handleYesClick} />
-              <RunawayNoButton />
+              <YesButton onClick={handleYesClick} scale={yesScale} />
+              <RunawayNoButton scale={noScale} onCaught={handleNoCaught} />
             </motion.div>
 
             {/* Bottom decoration */}
