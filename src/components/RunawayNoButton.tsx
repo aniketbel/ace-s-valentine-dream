@@ -26,9 +26,11 @@ const DESPERATE_MESSAGES = [
 
 interface RunawayNoButtonProps {
   onGiveUp?: () => void;
+  scale?: number;
+  onCaught?: () => void;
 }
 
-const RunawayNoButton = ({ onGiveUp }: RunawayNoButtonProps) => {
+const RunawayNoButton = ({ onGiveUp, scale = 1, onCaught }: RunawayNoButtonProps) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [message, setMessage] = useState("");
   const [escapeCount, setEscapeCount] = useState(0);
@@ -40,26 +42,22 @@ const RunawayNoButton = ({ onGiveUp }: RunawayNoButtonProps) => {
   const returnTimeoutRef = useRef<NodeJS.Timeout>();
   const runIntervalRef = useRef<NodeJS.Timeout>();
 
-  // Calculate button scale based on escape count
-  const getScale = () => {
-    if (escapeCount < 5) return 1;
-    if (escapeCount < 10) return 0.85;
-    if (escapeCount < 15) return 0.7;
-    if (escapeCount < 20) return 0.6;
-    return 0.5;
-  };
-
-  // Get safe position within viewport
+  // Get safe position within viewport - keeps button fully visible
   const getSafePosition = useCallback(() => {
-    const padding = 120;
-    const maxX = window.innerWidth - padding * 2;
-    const maxY = window.innerHeight - padding * 2;
+    const buttonWidth = 120 * scale;
+    const buttonHeight = 50 * scale;
+    const padding = 20;
     
-    return {
-      x: -maxX / 2 + Math.random() * maxX,
-      y: -maxY / 2 + Math.random() * maxY,
-    };
-  }, []);
+    // Calculate bounds from center of screen
+    const maxX = (window.innerWidth / 2) - buttonWidth / 2 - padding;
+    const maxY = (window.innerHeight / 2) - buttonHeight / 2 - padding;
+    
+    // Generate random position within safe bounds
+    const x = (Math.random() - 0.5) * 2 * maxX;
+    const y = (Math.random() - 0.5) * 2 * maxY;
+    
+    return { x, y };
+  }, [scale]);
 
   // Return to original position smoothly
   const returnToCenter = useCallback(() => {
@@ -167,11 +165,13 @@ const RunawayNoButton = ({ onGiveUp }: RunawayNoButtonProps) => {
     runAround();
   }, [runAround]);
 
-  // Handle click attempt
+  // Handle click attempt - if actually clicked, trigger size change
   const handleClick = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
+    // Button was actually clicked! Trigger the caught callback
+    onCaught?.();
     runAround();
-  }, [runAround]);
+  }, [runAround, onCaught]);
 
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
@@ -190,7 +190,7 @@ const RunawayNoButton = ({ onGiveUp }: RunawayNoButtonProps) => {
         animate={{
           x: position.x,
           y: position.y,
-          scale: getScale(),
+          scale: scale,
           rotate: rotation,
         }}
         transition={{
@@ -201,7 +201,7 @@ const RunawayNoButton = ({ onGiveUp }: RunawayNoButtonProps) => {
         }}
         onTouchStart={handleTouch}
         onClick={handleClick}
-        whileTap={{ scale: getScale() * 0.9 }}
+        whileTap={{ scale: scale * 0.9 }}
         style={{ 
           left: "50%", 
           top: "50%", 
@@ -282,7 +282,7 @@ const RunawayNoButton = ({ onGiveUp }: RunawayNoButtonProps) => {
               animate={{
                 x: position.x,
                 y: position.y,
-                scale: getScale() * (1 - i * 0.15),
+                scale: scale * (1 - i * 0.15),
                 opacity: [0.3 - i * 0.08, 0],
               }}
               transition={{

@@ -3,14 +3,16 @@ import { Heart } from "lucide-react";
 
 interface YesButtonProps {
   onClick: () => void;
+  scale?: number;
 }
 
-const YesButton = ({ onClick }: YesButtonProps) => {
+const YesButton = ({ onClick, scale = 1 }: YesButtonProps) => {
   return (
     <motion.button
       className="btn-yes flex items-center gap-3 group"
       onClick={onClick}
-      whileHover={{ scale: 1.05 }}
+      style={{ scale }}
+      whileHover={{ scale: scale * 1.05 }}
       whileTap={{ scale: 0.95 }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
