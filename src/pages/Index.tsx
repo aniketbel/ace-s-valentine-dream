@@ -59,23 +59,6 @@ const Index = () => {
               <YesButton onClick={handleYesClick} scale={yesScale} />
               <RunawayNoButton scale={noScale} onCaught={handleNoCaught} />
             </motion.div>
-
-            {/* Bottom decoration */}
-            <motion.div
-              className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-muted-foreground/60"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 0.5 }}
-            >
-              <span className="text-sm">Made with</span>
-              <motion.span
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
-              >
-                ❤️
-              </motion.span>
-              <span className="text-sm">for Ace</span>
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

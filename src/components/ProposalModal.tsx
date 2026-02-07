@@ -119,20 +119,29 @@ const ProposalModal = ({ isOpen }: ProposalModalProps) => {
 
             {/* Forever badge */}
             {showButtons && (
-              <motion.div
-                className="flex items-center justify-center"
+                <motion.div
+                className="flex flex-col items-center justify-center gap-3"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-              >
+                >
+                <div className="flex flex-col items-center gap-1">
+                  <p className="text-sm text-foreground/70">Click me</p>
+                  <motion.div
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                  ↓
+                  </motion.div>
+                </div>
                 <motion.button
                   className="flex items-center gap-2 px-6 py-3 bg-primary/10 backdrop-blur-sm rounded-full text-primary border border-primary/30 cursor-pointer"
                   animate={{
-                    boxShadow: [
-                      "0 0 0 0 rgba(219, 39, 119, 0.4)",
-                      "0 0 20px 5px rgba(219, 39, 119, 0.2)",
-                      "0 0 0 0 rgba(219, 39, 119, 0.4)",
-                    ],
+                  boxShadow: [
+                    "0 0 0 0 rgba(219, 39, 119, 0.4)",
+                    "0 0 20px 5px rgba(219, 39, 119, 0.2)",
+                    "0 0 0 0 rgba(219, 39, 119, 0.4)",
+                  ],
                   }}
                   transition={{ duration: 2, repeat: Infinity }}
                   whileHover={{ scale: 1.08 }}
@@ -142,7 +151,7 @@ const ProposalModal = ({ isOpen }: ProposalModalProps) => {
                   <InfinityIcon className="w-4 h-4" />
                   Forever
                 </motion.button>
-              </motion.div>
+                </motion.div>
             )}
 
             {/* Decorative elements */}
