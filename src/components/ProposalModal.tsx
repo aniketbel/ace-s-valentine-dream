@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import RosePetals from "./RosePetals";
 import TypewriterText from "./TypewriterText";
+import LoveLetterEnvelope from "./LoveLetterEnvelope";
 import { Heart, Infinity as InfinityIcon } from "lucide-react";
 
 interface ProposalModalProps {
@@ -12,6 +13,7 @@ const ProposalModal = ({ isOpen }: ProposalModalProps) => {
   const [showMessage, setShowMessage] = useState(false);
   const [showSecondary, setShowSecondary] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
+  const [showLetter, setShowLetter] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -19,11 +21,13 @@ const ProposalModal = ({ isOpen }: ProposalModalProps) => {
       const messageTimer = setTimeout(() => setShowMessage(true), 1500);
       const secondaryTimer = setTimeout(() => setShowSecondary(true), 5000);
       const buttonsTimer = setTimeout(() => setShowButtons(true), 8000);
+      const letterTimer = setTimeout(() => setShowLetter(true), 10000);
 
       return () => {
         clearTimeout(messageTimer);
         clearTimeout(secondaryTimer);
         clearTimeout(buttonsTimer);
+        clearTimeout(letterTimer);
       };
     }
   }, [isOpen]);
@@ -163,6 +167,9 @@ const ProposalModal = ({ isOpen }: ProposalModalProps) => {
               ))}
             </div>
           </motion.div>
+
+          {/* Love letter envelope */}
+          <LoveLetterEnvelope isVisible={showLetter} />
         </motion.div>
       )}
     </AnimatePresence>
