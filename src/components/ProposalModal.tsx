@@ -15,10 +15,8 @@ const ProposalModal = ({ isOpen }: ProposalModalProps) => {
   const [showButtons, setShowButtons] = useState(false);
   const [showLetter, setShowLetter] = useState(false);
 
-
   useEffect(() => {
     if (isOpen) {
-      // Stagger the message reveals
       const messageTimer = setTimeout(() => setShowMessage(true), 1500);
       const secondaryTimer = setTimeout(() => setShowSecondary(true), 5000);
       const buttonsTimer = setTimeout(() => setShowButtons(true), 8000);
