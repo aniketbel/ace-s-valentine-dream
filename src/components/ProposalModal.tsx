@@ -169,7 +169,7 @@ const ProposalModal = ({ isOpen }: ProposalModalProps) => {
           </motion.div>
 
           {/* Love letter envelope */}
-          <LoveLetterEnvelope isVisible={showLetter} />
+          <LoveLetterEnvelope isVisible={showLetter} onClose={() => setShowLetter(false)} />
         </motion.div>
       )}
     </AnimatePresence>
