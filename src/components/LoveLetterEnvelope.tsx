@@ -4,6 +4,7 @@ import { Heart } from "lucide-react";
 
 interface LoveLetterEnvelopeProps {
   isVisible: boolean;
+  onClose: () => void;
 }
 
 const letterLines = [
@@ -27,7 +28,7 @@ const letterLines = [
   "Your Garfield. 💌",
 ];
 
-const LoveLetterEnvelope = ({ isVisible }: LoveLetterEnvelopeProps) => {
+const LoveLetterEnvelope = ({ isVisible, onClose }: LoveLetterEnvelopeProps) => {
   const [isOpened, setIsOpened] = useState(false);
   const [showLetter, setShowLetter] = useState(false);
 
@@ -124,7 +125,13 @@ const LoveLetterEnvelope = ({ isVisible }: LoveLetterEnvelopeProps) => {
                     animate={{ y: "-85%", opacity: 1 }}
                     transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
                   >
-                    <div className="bg-white rounded-lg shadow-xl p-6 max-h-[55vh] overflow-y-auto border border-[hsl(350,30%,90%)]">
+                    <div className="bg-white rounded-lg shadow-xl p-6 max-h-[55vh] overflow-y-auto border border-[hsl(350,30%,90%)] relative">
+                      <button
+                        onClick={onClose}
+                        className="absolute top-2 right-2 w-7 h-7 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center text-primary transition-colors"
+                      >
+                        ✕
+                      </button>
                       {/* Letter header decoration */}
                       <div className="flex justify-center mb-4">
                         <motion.div
