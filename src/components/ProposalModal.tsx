@@ -2,19 +2,16 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import RosePetals from "./RosePetals";
 import TypewriterText from "./TypewriterText";
-import MusicController from "./MusicController";
-import { Heart, RefreshCw, Infinity as InfinityIcon } from "lucide-react";
+import { Heart, Infinity as InfinityIcon } from "lucide-react";
 
 interface ProposalModalProps {
   isOpen: boolean;
-  onReplay?: () => void;
 }
 
-const ProposalModal = ({ isOpen, onReplay }: ProposalModalProps) => {
+const ProposalModal = ({ isOpen }: ProposalModalProps) => {
   const [showMessage, setShowMessage] = useState(false);
   const [showSecondary, setShowSecondary] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
-  const [audioAmplitude, setAudioAmplitude] = useState(0);
 
   useEffect(() => {
     if (isOpen) {
@@ -30,10 +27,6 @@ const ProposalModal = ({ isOpen, onReplay }: ProposalModalProps) => {
       };
     }
   }, [isOpen]);
-
-  const handleAudioData = (amplitude: number) => {
-    setAudioAmplitude(amplitude);
-  };
 
   return (
     <AnimatePresence>
@@ -53,21 +46,16 @@ const ProposalModal = ({ isOpen, onReplay }: ProposalModalProps) => {
             transition={{ duration: 1.5 }}
           />
 
-          {/* Ambient glow that pulses with music */}
+          {/* Ambient glow */}
           <motion.div
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: `radial-gradient(circle at 50% 50%, hsl(350 80% 55% / ${
-                0.1 + audioAmplitude * 0.15
-              }) 0%, transparent 70%)`,
+              background: `radial-gradient(circle at 50% 50%, hsl(350 80% 55% / 0.1) 0%, transparent 70%)`,
             }}
           />
 
           {/* Rose petals */}
-          <RosePetals intensity={1.5} audioData={audioAmplitude} />
-
-          {/* Music controller */}
-          <MusicController isPlaying={isOpen} onAudioData={handleAudioData} />
+          <RosePetals intensity={1.5} audioData={0} />
 
           {/* Content */}
           <motion.div
@@ -128,24 +116,14 @@ const ProposalModal = ({ isOpen, onReplay }: ProposalModalProps) => {
               </motion.p>
             )}
 
-            {/* Action buttons */}
+            {/* Forever badge */}
             {showButtons && (
               <motion.div
-                className="flex flex-col sm:flex-row items-center justify-center gap-4"
+                className="flex items-center justify-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <motion.button
-                  className="flex items-center gap-2 px-6 py-3 bg-card/50 backdrop-blur-sm rounded-full text-foreground hover:bg-card/70 transition-all border border-primary/20 shadow-soft"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={onReplay}
-                >
-                  <RefreshCw className="w-4 h-4" />
-                  Replay 💫
-                </motion.button>
-
                 <motion.div
                   className="flex items-center gap-2 px-6 py-3 bg-primary/10 backdrop-blur-sm rounded-full text-primary border border-primary/30"
                   animate={{
