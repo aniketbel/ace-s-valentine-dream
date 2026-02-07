@@ -17,12 +17,6 @@ const Index = () => {
     setTimeout(() => setIsAccepted(true), 500);
   }, []);
 
-  const handleReplay = useCallback(() => {
-    setIsAccepted(false);
-    setShowQuestion(true);
-    setYesScale(1);
-    setNoScale(1);
-  }, []);
 
   const handleNoCaught = useCallback(() => {
     // Reduce No button by 5%, increase Yes button by 5%
@@ -87,7 +81,7 @@ const Index = () => {
       </AnimatePresence>
 
       {/* Celebration modal */}
-      <ProposalModal isOpen={isAccepted} onReplay={handleReplay} />
+      <ProposalModal isOpen={isAccepted} />
     </div>
   );
 };
