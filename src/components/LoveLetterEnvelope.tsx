@@ -52,17 +52,29 @@ const LoveLetterEnvelope = ({ isVisible }: LoveLetterEnvelopeProps) => {
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="relative w-[90vw] max-w-md"
+            className="relative w-[90vw] max-w-md flex items-center justify-center"
             initial={{ scale: 0.3, opacity: 0, y: 80 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             transition={{ type: "spring", damping: 15, stiffness: 100 }}
           >
+            {/* Envelope glow */}
+            <motion.div
+              className="absolute inset-0 -m-4 rounded-2xl pointer-events-none"
+              animate={{
+                boxShadow: [
+                  "0 0 20px 5px hsla(350, 80%, 60%, 0.3), 0 0 60px 10px hsla(350, 80%, 60%, 0.15)",
+                  "0 0 30px 10px hsla(350, 80%, 60%, 0.5), 0 0 80px 20px hsla(350, 80%, 60%, 0.25)",
+                  "0 0 20px 5px hsla(350, 80%, 60%, 0.3), 0 0 60px 10px hsla(350, 80%, 60%, 0.15)",
+                ],
+              }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            />
+
             {/* Envelope body */}
-            <div className="relative">
+            <div className="relative w-full">
               {/* Back of envelope */}
-              <div className="bg-[hsl(30,60%,88%)] rounded-xl shadow-2xl aspect-[4/3] relative overflow-hidden border border-[hsl(30,40%,75%)]">
-                {/* Inner shadow texture */}
-                <div className="absolute inset-0 bg-gradient-to-b from-[hsl(30,50%,92%)] to-[hsl(30,60%,85%)]" />
+              <div className="bg-[hsl(350,60%,85%)] rounded-xl shadow-2xl aspect-[4/3] relative overflow-hidden border border-[hsl(350,50%,75%)]">
+                <div className="absolute inset-0 bg-gradient-to-b from-[hsl(350,65%,90%)] to-[hsl(350,55%,80%)]" />
 
                 {/* Heart seal */}
                 <motion.div
@@ -76,7 +88,7 @@ const LoveLetterEnvelope = ({ isVisible }: LoveLetterEnvelopeProps) => {
                 </motion.div>
               </div>
 
-              {/* Envelope flap (top triangle) */}
+              {/* Envelope flap */}
               <motion.div
                 className="absolute top-0 left-0 right-0 origin-top"
                 animate={isOpened ? { rotateX: 180 } : { rotateX: 0 }}
@@ -86,33 +98,33 @@ const LoveLetterEnvelope = ({ isVisible }: LoveLetterEnvelopeProps) => {
                 <svg viewBox="0 0 400 150" className="w-full drop-shadow-md">
                   <path
                     d="M0,0 L200,130 L400,0 Z"
-                    fill="hsl(30, 55%, 82%)"
-                    stroke="hsl(30, 40%, 75%)"
+                    fill="hsl(350, 50%, 78%)"
+                    stroke="hsl(350, 40%, 70%)"
                     strokeWidth="1"
                   />
+                  <defs>
+                    <linearGradient id="flapGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="hsl(350, 60%, 86%)" />
+                      <stop offset="100%" stopColor="hsl(350, 50%, 78%)" />
+                    </linearGradient>
+                  </defs>
                   <path
                     d="M0,0 L200,130 L400,0 Z"
                     fill="url(#flapGradient)"
                   />
-                  <defs>
-                    <linearGradient id="flapGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="hsl(30, 60%, 86%)" />
-                      <stop offset="100%" stopColor="hsl(30, 50%, 78%)" />
-                    </linearGradient>
-                  </defs>
                 </svg>
               </motion.div>
 
-              {/* Letter rising out */}
+              {/* Letter rising out - centered */}
               <AnimatePresence>
                 {isOpened && (
                   <motion.div
-                    className="absolute left-3 right-3 bottom-3"
-                    initial={{ y: 0 }}
-                    animate={{ y: "-105%" }}
+                    className="absolute inset-x-3 top-1/2 -translate-y-1/2"
+                    initial={{ y: 0, opacity: 0 }}
+                    animate={{ y: "-85%", opacity: 1 }}
                     transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
                   >
-                    <div className="bg-white rounded-lg shadow-xl p-6 max-h-[60vh] overflow-y-auto border border-[hsl(30,30%,90%)]">
+                    <div className="bg-white rounded-lg shadow-xl p-6 max-h-[55vh] overflow-y-auto border border-[hsl(350,30%,90%)]">
                       {/* Letter header decoration */}
                       <div className="flex justify-center mb-4">
                         <motion.div
