@@ -15,19 +15,18 @@ const ProposalModal = ({ isOpen }: ProposalModalProps) => {
   const [showButtons, setShowButtons] = useState(false);
   const [showLetter, setShowLetter] = useState(false);
 
+
   useEffect(() => {
     if (isOpen) {
       // Stagger the message reveals
       const messageTimer = setTimeout(() => setShowMessage(true), 1500);
       const secondaryTimer = setTimeout(() => setShowSecondary(true), 5000);
       const buttonsTimer = setTimeout(() => setShowButtons(true), 8000);
-      const letterTimer = setTimeout(() => setShowLetter(true), 10000);
 
       return () => {
         clearTimeout(messageTimer);
         clearTimeout(secondaryTimer);
         clearTimeout(buttonsTimer);
-        clearTimeout(letterTimer);
       };
     }
   }, [isOpen]);
@@ -128,8 +127,8 @@ const ProposalModal = ({ isOpen }: ProposalModalProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <motion.div
-                  className="flex items-center gap-2 px-6 py-3 bg-primary/10 backdrop-blur-sm rounded-full text-primary border border-primary/30"
+                <motion.button
+                  className="flex items-center gap-2 px-6 py-3 bg-primary/10 backdrop-blur-sm rounded-full text-primary border border-primary/30 cursor-pointer"
                   animate={{
                     boxShadow: [
                       "0 0 0 0 rgba(219, 39, 119, 0.4)",
@@ -138,10 +137,13 @@ const ProposalModal = ({ isOpen }: ProposalModalProps) => {
                     ],
                   }}
                   transition={{ duration: 2, repeat: Infinity }}
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowLetter(true)}
                 >
                   <InfinityIcon className="w-4 h-4" />
                   Forever
-                </motion.div>
+                </motion.button>
               </motion.div>
             )}
 
